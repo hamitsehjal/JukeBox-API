@@ -9,3 +9,36 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum GENRE_TYPE {
+  ROCK
+  POP
+  COUNTRY
+  ROMANTIC
+}
+
+model Album {
+  id          String     @id @default(uuid())
+  name        String     @db.VarChar(255)
+  price       Int
+  genre       GENRE_TYPE @default(ROCK)
+  description String?    @db.VarChar(255)
+  releaseDate DateTime
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  artist Artist[]
+}
+
+enum ARTIST_TYPE {
+  LYRICIST
+  SINGER
+  COMPOSER
+}
+
+model Artist {
+  id     String           @id @default(uuid())
+  name   String           @db.VarChar()
+  type   ARTIST_TYPE      @default(SINGER)
+  album Album[]
+}
+
