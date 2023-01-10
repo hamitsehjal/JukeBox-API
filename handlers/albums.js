@@ -3,51 +3,74 @@ const { PrismaClient } = require("@prisma/client")
 const prisma = new PrismaClient()
 
 // getting all the albums
-export const getAllAblums = (async (req, res, next) => {
-    const albums = await prisma.album.findMany();
+module.exports.getAllAblums = (async (req, res, next) => {
+    try {
 
-    res.json({ message: albums })
+        const albums = await prisma.album.findMany();
+
+        res.json({ message: albums })
+    } catch (err) {
+        next(err)
+    }
+
 
 })
 
 // get a single album
-export const getAlbum = (async (req, res, next) => {
-    const album = await prisma.album.findUnique({
-        where: {
-            id: req.params.id
-        }
-    })
+module.exports.getAlbum = (async (req, res, next) => {
 
-    res.json({ message: album })
+    try {
+        const album = await prisma.album.findUnique({
+            where: {
+                id: req.params.id
+            }
+        })
+
+        res.json({ message: album })
+    } catch (err) {
+        next(err)
+    }
+
 })
 
 // creating a new album
 
-export const createAlbum = (async (req, res, next) => {
-    const album = await prisma.album.create({
-        data: {
-            name: req.body.name,
-            price: req.body.price,
-            description: req.body.description,
-            releaseDate: req.body.releaseDate,
-            artist: {
-                create: {
-                    name: req.body.artist
+module.exports.createAlbum = (async (req, res, next) => {
+    try {
+        const album = await prisma.album.create({
+            data: {
+                name: req.body.name,
+                price: req.body.price,
+                description: req.body.description,
+                releaseDate: new Date(req.body.releaseDate),
+                artist: {
+                    create: {
+                        name: req.body.artist
+                    }
                 }
             }
-        }
-    })
-    res.json({ message: album })
+        })
+        res.json({ message: album })
+    } catch (err) {
+        next(err)
+    }
 })
 
 // updating an existing album
-export const updateAlbum = (async (req, res, next) => {
-    const album = prisma.album.update({
-        where: {
-            id: req.params.id
-        },
-        data: req.body
-    })
+module.exports.updateAlbum = (async (req, res, next) => {
+    try {
+        if (req.body.releaseDate)
+            req.body.releaseDate = new Date(req.body.releaseDate)
 
-    res.json({ message: album })
+        const album = await prisma.album.update({
+            where: {
+                id: req.params.id
+            },
+            data: req.body
+        })
+
+        res.json({ message: album })
+    } catch (err) {
+        next(err)
+    }
 })

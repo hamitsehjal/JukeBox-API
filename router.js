@@ -1,22 +1,15 @@
 const express = require('express')
+const { getAllAblums, getAlbum, createAlbum, updateAlbum } = require('./handlers/albums')
 const router = express.Router()
 
 
 
 
 // Album
-router.get('/albums', (req, res, next) => {
-
-})
-router.get('/album:id', (req, res, next) => {
-
-})
-router.post('/album', (req, res, next) => {
-
-})
-router.put('/album:id', (req, res, next) => {
-
-})
+router.get('/albums', getAllAblums)
+router.get('/album/:id', getAlbum)
+router.post('/album', createAlbum)
+router.put('/album/:id', updateAlbum)
 // router.delete('/album:id', (req, res, next) => {
 
 // })
@@ -38,4 +31,4 @@ router.put('/artist:id', (req, res, next) => {
 
 // })
 
-module.exports=router
+module.exports = router
