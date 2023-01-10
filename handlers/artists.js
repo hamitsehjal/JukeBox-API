@@ -42,11 +42,16 @@ module.exports.createArtist = (async (req, res, next) => {
                 type: req.body.type,
                 album: {
                     create: {
-                        name: req.body.album
+                        name: req.body.album,
+                        price: req.body.albumPrice,
+                        description: req.body.albumDesc,
+                        releaseDate: new Date(req.body.albumDate)
                     }
                 }
             }
         })
+
+        res.status(200).json({ message: artist })
     } catch (err) {
 
     }
@@ -63,6 +68,8 @@ module.exports.updateArtist = (async (req, res, next) => {
             },
             data: req.body
         })
+        res.status(200).json({ message: artist })
+
     } catch (err) {
         next(err)
     }
