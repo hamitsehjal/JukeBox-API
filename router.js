@@ -1,5 +1,6 @@
 const express = require('express')
 const { getAllAblums, getAlbum, createAlbum, updateAlbum } = require('./handlers/albums')
+const { getAllArtists, getOneArtist, createArtist, updateArtist } = require('./handlers/artists')
 const router = express.Router()
 
 
@@ -15,18 +16,10 @@ router.put('/album/:id', updateAlbum)
 // })
 // Artist
 
-router.get('/artists', (req, res, next) => {
-
-})
-router.get('/artist:id', (req, res, next) => {
-
-})
-router.post('/artist', (req, res, next) => {
-
-})
-router.put('/artist:id', (req, res, next) => {
-
-})
+router.get('/artists', getAllArtists)
+router.get('/artist:id', getOneArtist)
+router.post('/artist', createArtist)
+router.put('/artist:id', updateArtist)
 // router.delete('/artist:id', (req, res, next) => {
 
 // })
