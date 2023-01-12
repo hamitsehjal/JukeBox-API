@@ -48,7 +48,7 @@ module.exports.createAlbum = (async (req, res, next) => {
                 artists: { create: req.body.artists }
             }
         })
-        res.json({ message: album })
+        res.status(200).json({ message: album })
     } catch (err) {
         next(err)
     }

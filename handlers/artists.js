@@ -35,25 +35,24 @@ module.exports.getOneArtist = (async (req, res, next) => {
 // create a new artist
 
 module.exports.createArtist = (async (req, res, next) => {
+    const newAlbums = req.body.albums
+    for (let i = 0; i < newAlbums.length; i++) {
+        newAlbums[i].releaseDate = new Date(newAlbums[i].releaseDate)
+    }
+    console.log(newAlbums)
     try {
         const artist = await prisma.artist.create({
             data: {
                 name: req.body.name,
-                type: req.body.type,
-                album: {
-                    create: {
-                        name: req.body.album,
-                        price: req.body.albumPrice,
-                        description: req.body.albumDesc,
-                        releaseDate: new Date(req.body.albumDate)
-                    }
-                }
+
+                // MOST IMPORTANT
+                albums: { create: newAlbums }
             }
         })
 
         res.status(200).json({ message: artist })
     } catch (err) {
-
+        next(err)
     }
 })
 
