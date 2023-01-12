@@ -74,3 +74,42 @@ module.exports.updateAlbum = (async (req, res, next) => {
         next(err)
     }
 })
+
+// to retrieve the list of music albums sorted by release date in ascending order
+
+module.exports.getAlbumsByReleaseDate = (async (req, res, next) => {
+    try {
+        const albums = await prisma.album.findMany({
+            orderBy: {
+                releaseDate: 'asc'
+            }
+        })
+
+        res.status(200).json({ message: albums })
+    } catch (err) {
+        next(err)
+    }
+
+})
+
+// to retrieve a list of music albums by a specific musician sorted by price in ascending order
+
+module.exports.getAlbumByArtist = (async (req, res, next) => {
+    try {
+        const albums = await prisma.album.findMany({
+            where: {
+                artist: {
+                    name: {
+                        contains: req.body.artist,
+                    },
+                },
+            },
+        })
+
+
+
+        res.status(200).json({ message: albums })
+    } catch (err) {
+        next(err)
+    }
+})

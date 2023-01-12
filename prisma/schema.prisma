@@ -18,15 +18,15 @@ enum GENRE_TYPE {
 }
 
 model Album {
-  id              String            @id @default(uuid())
-  name            String            @db.VarChar(255)
+  id              String          @id @default(uuid())
+  name            String          @db.VarChar(255)
   price           Int
-  genre           GENRE_TYPE        @default(ROCK)
-  description     String?           @db.VarChar(255)
+  genre           GENRE_TYPE      @default(ROCK)
+  description     String?         @db.VarChar(255)
   releaseDate     DateTime
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
-  artist          Artist[]
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  AlbumsByArtists AlbumByArtist[]
 }
 
 enum ARTIST_TYPE {
@@ -36,14 +36,17 @@ enum ARTIST_TYPE {
 }
 
 model Artist {
-  id    String      @id @default(uuid())
-  name  String      @db.VarChar()
-  type  ARTIST_TYPE @default(SINGER)
-  album Album[]
+  id            String          @id @default(uuid())
+  name          String          @db.VarChar()
+  type          ARTIST_TYPE     @default(SINGER)
+  AlbumByArtist AlbumByArtist[]
 }
 
-// model AlbumsByArtists {
-//   id      String @id @default(uuid())
-//   albumId String
-//   album   Album  @relation(fields: [albumId], references: [id])
-// }
+model AlbumByArtist {
+  albumId  String
+  album    Album  @relation(fields: [albumId], references: [id])
+  artistId String
+  artist   Artist @relation(fields: [artistId], references: [id])
+
+  @@id([albumId, artistId])
+}

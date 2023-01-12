@@ -1,5 +1,5 @@
 const express = require('express')
-const { getAllAblums, getAlbum, createAlbum, updateAlbum } = require('./handlers/albums')
+const { getAllAblums, getAlbum, createAlbum, updateAlbum, getAlbumsByReleaseDate, getAlbumByArtist } = require('./handlers/albums')
 const { getAllArtists, getOneArtist, createArtist, updateArtist } = require('./handlers/artists')
 const router = express.Router()
 
@@ -24,4 +24,11 @@ router.put('/artist:id', updateArtist)
 
 // })
 
+// other functionalities
+
+// to retrieve the list of music albums sorted by release date in ascending order
+router.get("/albumsByRelease", getAlbumsByReleaseDate)
+
+// to retrieve a list of music albums by a specific musician sorted by price in ascending order
+router.get("/albumsByArtist", getAlbumByArtist)
 module.exports = router
