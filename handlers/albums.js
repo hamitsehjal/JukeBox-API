@@ -37,17 +37,15 @@ module.exports.getAlbum = (async (req, res, next) => {
 
 module.exports.createAlbum = (async (req, res, next) => {
     try {
+
         const album = await prisma.album.create({
             data: {
                 name: req.body.name,
                 price: req.body.price,
                 description: req.body.description,
                 releaseDate: new Date(req.body.releaseDate),
-                artist: {
-                    create: {
-                        name: req.body.artist
-                    }
-                }
+                // MOST IMPORTANT
+                artists: { create: req.body.artists }
             }
         })
         res.json({ message: album })
@@ -97,14 +95,14 @@ module.exports.getAlbumsByReleaseDate = (async (req, res, next) => {
 module.exports.getAlbumByArtist = (async (req, res, next) => {
     try {
         const albums = await prisma.album.findMany({
-            where: {
-                artist: {
-                    name: {
-                        contains: req.body.artist,
-                    },
-                },
+            orderBy: {
+                price: 'asc'
             },
+            include: {
+                artists: true
+            }
         })
+
 
 
 
