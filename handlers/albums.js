@@ -95,11 +95,18 @@ module.exports.getAlbumsByReleaseDate = (async (req, res, next) => {
 module.exports.getAlbumByArtist = (async (req, res, next) => {
     try {
         const albums = await prisma.album.findMany({
+            where: {
+                artists: {
+                    some: {
+                        name: {
+                            equals: req.body.artist,
+                            mode: 'insensitive',
+                        },
+                    }
+                },
+            },
             orderBy: {
                 price: 'asc'
-            },
-            include: {
-                artists: true
             }
         })
 
@@ -111,3 +118,4 @@ module.exports.getAlbumByArtist = (async (req, res, next) => {
         next(err)
     }
 })
+

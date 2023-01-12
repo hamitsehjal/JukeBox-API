@@ -5,7 +5,6 @@ const router = express.Router()
 
 
 
-
 // Album
 router.get('/albums', getAllAblums)
 router.get('/album/:id', getAlbum)
@@ -17,9 +16,9 @@ router.put('/album/:id', updateAlbum)
 // Artist
 
 router.get('/artists', getAllArtists)
-router.get('/artist:id', getOneArtist)
+router.get('/artist/:id', getOneArtist)
 router.post('/artist', createArtist)
-router.put('/artist:id', updateArtist)
+router.put('/artist/:id', updateArtist)
 // router.delete('/artist:id', (req, res, next) => {
 
 // })
@@ -31,4 +30,5 @@ router.get("/albumsByRelease", getAlbumsByReleaseDate)
 
 // to retrieve a list of music albums by a specific musician sorted by price in ascending order
 router.get("/albumsByArtist", getAlbumByArtist)
+
 module.exports = router
